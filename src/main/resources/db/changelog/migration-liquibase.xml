@@ -1,0 +1,59 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+    <changeSet id="1" author="yaroslav">
+        <sql>
+            CREATE TABLE "country_information"
+            (
+            "id" SERIAL NOT NULL,
+            "iso_code" VARCHAR(255),
+            CONSTRAINT "iso_code_pk" PRIMARY KEY ("id")
+            );
+        </sql>
+    </changeSet>
+    <changeSet id="2" author="yaroslav">
+        <sql>
+            CREATE TABLE "languages"
+            (
+            "id" SERIAL NOT NULL,
+            "language" VARCHAR(255),
+            CONSTRAINT "language_pk" PRIMARY KEY ("id")
+            );
+        </sql>
+    </changeSet>
+    <changeSet id="3" author="yaroslav">
+        <sql>
+            CREATE TABLE "country"
+            (
+            "id" SERIAL NOT NULL,
+            "name" VARCHAR(255),
+            "iso_code_id" BIGINT,
+            "language_id" BIGINT,
+            CONSTRAINT "country_pk" PRIMARY KEY ("id"),
+            CONSTRAINT "iso_code_fk" FOREIGN KEY ("iso_code_id") REFERENCES "country_information" ("id"),
+            CONSTRAINT "language_fk" FOREIGN KEY ("language_id") REFERENCES "languages" ("id")
+            );
+        </sql>
+    </changeSet>
+    <changeSet id="4" author="yaroslav">
+        <sql>
+            INSERT INTO "country_information" ("iso_code") VALUES ('UA'), ('RU');
+        </sql>
+    </changeSet>
+    <changeSet id="5" author="yaroslav">
+        <sql>
+            INSERT INTO "languages" ("language") VALUES ('en'), ('ru'), ('uk');
+        </sql>
+    </changeSet>
+    <changeSet id="6" author="yaroslav">
+        <sql>
+            INSERT INTO "country" ("name", "iso_code_id", "language_id") VALUES ('Ukraine', '1', '1'),
+            ('Украина', '1', '2'),
+            ('Украiна', '1', '3'),
+            ('Russia', '2', '1'),
+            ('Россия', '2', '2'),
+            ('Росiя', '2', '3');
+        </sql>
+    </changeSet>
+    </databaseChangeLog>
