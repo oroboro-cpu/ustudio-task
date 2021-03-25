@@ -13,7 +13,7 @@ interface CountryLocalizationRepository : JpaRepository<CountryLocalization?, Lo
             " WHERE ci.iso_code = :isoCode AND l.language = :language",
         nativeQuery = true)
     fun getCountryByIsoCode(
-        @Param("isoCode") isoCode: String?,
-        @Param("language") language: String?
-    ): CountryLocalization
+        @Param("isoCode") isoCode: String,
+        @Param("language") language: String
+    ): CountryLocalization?
 }

@@ -1,53 +1,51 @@
 package ustudio.task.service
 
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.whenever
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
-import ustudio.task.exception.DataProcessingException
+import ustudio.task.exception.InvalidCountryCodeException
+import ustudio.task.exception.InvalidLanguageCodeException
+import ustudio.task.exception.LocalizationNotFoundException
+import ustudio.task.model.CountryLocalization
+import ustudio.task.repository.CountryLocalizationRepository
 
-@SpringBootTest
-internal class CountryLocalizationServiceTest(
-    @Autowired
-    val countryLocalizationService: CountryLocalizationService
-) {
+internal class CountryLocalizationServiceTest {
+    val repository: CountryLocalizationRepository = mock()
+    val countryLocalizationService: CountryLocalizationService = CountryLocalizationServiceImpl(repository)
 
     @Test
-    fun check_for_correct_language_output() {
+    fun check_for_correct_language_output_and_iso_code() {
+        whenever(repository.getCountryByIsoCode("UA", "en"))
+            .thenReturn(CountryLocalization().apply { name = "Ukraine" })
         val expectedResult1 = "Ukraine"
-        val expectedResult2 = "Украина"
-        val expectedResult3 = "Украiна"
         val actualResult1 = countryLocalizationService.getCountryByIsoCode("UA", "en").name
-        val actualResult2 = countryLocalizationService.getCountryByIsoCode("UA", "ru").name
-        val actualResult3 = countryLocalizationService.getCountryByIsoCode("UA", "uk").name
         assertEquals(expectedResult1, actualResult1)
-        assertEquals(expectedResult2, actualResult2)
-        assertEquals(expectedResult3, actualResult3)
     }
 
     @Test
-    fun check_for_correct_iso_code() {
-        val expectedResult1 = "Россия"
-        val expectedResult2 = "Russia"
-        val actualResult1 = countryLocalizationService.getCountryByIsoCode("RU", "ru").name
-        val actualResult2 = countryLocalizationService.getCountryByIsoCode("RU", "en").name
-        assertEquals(expectedResult1, actualResult1)
-        assertEquals(expectedResult2, actualResult2)
-    }
-
-    @Test
-    fun check_for_incorrect_data() {
-        assertThrows(Exception::class.java) {
-            countryLocalizationService.getCountryByIsoCode("RU", "jp")
-        }
-        assertThrows(Exception::class.java) {
-            countryLocalizationService.getCountryByIsoCode("UA", "french")
-        }
-        assertThrows(Exception::class.java) {
+    fun check_for_incorrect_iso_code() {
+        whenever(repository.getCountryByIsoCode("UA", "en"))
+            .thenReturn(CountryLocalization().apply { name = "Ukraine" })
+        assertThrows(InvalidCountryCodeException::class.java) {
             countryLocalizationService.getCountryByIsoCode("AA", "en")
         }
-        assertThrows(Exception::class.java) {
-            countryLocalizationService.getCountryByIsoCode("UU", "ru")
+    }
+    @Test
+    fun check_for_incorrect_data_language() {
+        whenever(repository.getCountryByIsoCode("UA", "en"))
+            .thenReturn(CountryLocalization().apply { name = "Ukraine" })
+        assertThrows(InvalidLanguageCodeException::class.java) {
+            countryLocalizationService.getCountryByIsoCode("RU", "jp")
+        }
+    }
+
+    @Test
+    fun check_for_localization_not_found() {
+        whenever(repository.getCountryByIsoCode("UA", "en"))
+            .thenReturn(CountryLocalization().apply { name = "Ukraine" })
+        assertThrows(LocalizationNotFoundException::class.java) {
+            countryLocalizationService.getCountryByIsoCode("UA", "uk")
         }
     }
 }
