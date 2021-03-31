@@ -7,8 +7,6 @@ import ustudio.task.model.dto.CountryLocalizationDto
 @Component
 class CountryLocalizationToDtoImpl : CountryLocalizationToDto {
     override fun toDto(entity: CountryLocalization): CountryLocalizationDto {
-        val countryLocalizationDto = CountryLocalizationDto()
-        countryLocalizationDto.setName(entity.name)
-        return countryLocalizationDto
+        return CountryLocalizationDto(entity.name, entity.iso_code)
     }
 }

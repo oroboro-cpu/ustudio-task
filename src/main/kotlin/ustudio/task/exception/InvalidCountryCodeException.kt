@@ -1,3 +1,3 @@
 package ustudio.task.exception
 
-class InvalidCountryCodeException : RuntimeException()
+class InvalidCountryCodeException : RuntimeException("Incorrect iso code")

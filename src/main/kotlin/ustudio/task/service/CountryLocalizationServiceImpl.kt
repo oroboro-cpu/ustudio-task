@@ -6,15 +6,18 @@ import ustudio.task.exception.InvalidLanguageCodeException
 import ustudio.task.exception.LocalizationNotFoundException
 import ustudio.task.model.CountryLocalization
 import ustudio.task.repository.CountryLocalizationRepository
+import ustudio.task.repository.LanguageRepository
 
 @Service
-class CountryLocalizationServiceImpl (val countryRepository: CountryLocalizationRepository) :
+class CountryLocalizationServiceImpl(
+    val countryRepository: CountryLocalizationRepository,
+    val languageRepository: LanguageRepository
+) :
     CountryLocalizationService {
-    override fun getCountryByIsoCode(isoCode: String, language: String): CountryLocalization {
-        val repository = countryRepository.getCountryByIsoCode(isoCode, language)
-        if (isoCode != "RU" && isoCode!= "UA") return repository ?: throw InvalidCountryCodeException()
-        if (language != "en" && language != "uk" && language != "ru")
-            return repository ?: throw InvalidLanguageCodeException()
-        return repository ?: throw LocalizationNotFoundException()
+    override fun getCountryByIsoCodeAndLanguage(isoCode: String, language: String): CountryLocalization {
+        if (!countryRepository.existsIsoCode(isoCode)) throw InvalidCountryCodeException()
+        if (!languageRepository.existsLanguage(language)) throw InvalidLanguageCodeException()
+        val country = countryRepository.getCountryByIsoCodeAndLanguage(isoCode, language)
+        return country ?: throw LocalizationNotFoundException()
     }
 }

@@ -10,6 +10,7 @@ import ustudio.task.model.dto.CountryLocalizationDto
 import ustudio.task.service.CountryLocalizationService
 import ustudio.task.service.mapper.CountryLocalizationToDto
 
+
 @RestController
 @RequestMapping("/countries")
 class CountryLocalizationController @Autowired constructor(
@@ -19,7 +20,7 @@ class CountryLocalizationController @Autowired constructor(
     @RequestMapping("/{isoCode}")
     @GetMapping
     fun getCountryByIsoCode(@PathVariable isoCode: String, @RequestParam lang: String): CountryLocalizationDto {
-        val country= countryService.getCountryByIsoCode(isoCode, lang)
+        val country = countryService.getCountryByIsoCodeAndLanguage(isoCode, lang)
         return countryDto.toDto(country)
     }
 }

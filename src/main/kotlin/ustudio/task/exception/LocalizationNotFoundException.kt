@@ -1,3 +1,3 @@
 package ustudio.task.exception
 
-class LocalizationNotFoundException : RuntimeException()
+class LocalizationNotFoundException : RuntimeException("Can't find country in DB")

@@ -1,4 +1,4 @@
 package ustudio.task.exception
 
-class InvalidLanguageCodeException : RuntimeException()
+class InvalidLanguageCodeException : RuntimeException("Incorrect language")
 
