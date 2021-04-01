@@ -19,8 +19,7 @@ interface CountryLocalizationRepository : JpaRepository<CountryLocalization?, Lo
     ): CountryLocalization?
 
     @Query(
-        value = "SELECT CASE WHEN COUNT(ci) > 0 THEN true ELSE false END " +
-                "FROM country_information AS ci WHERE ci.iso_code = :isoCode",
+        value = "SELECT EXISTS(SELECT ci.iso_code FROM country_information AS ci WHERE ci.iso_code = :isoCode)",
         nativeQuery = true
     )
     fun existsIsoCode(@Param("isoCode") isoCode: String): Boolean

@@ -1,12 +1,6 @@
 package ustudio.task.service.mapper
 
-import org.springframework.stereotype.Component
 import ustudio.task.model.CountryLocalization
-import ustudio.task.model.dto.CountryLocalizationDto
+import ustudio.task.model.dto.CountryResponse
 
-@Component
-class CountryLocalizationToDtoImpl : CountryLocalizationToDto {
-    override fun toDto(entity: CountryLocalization): CountryLocalizationDto {
-        return CountryLocalizationDto(entity.name, entity.iso_code)
-    }
-}
+fun CountryLocalization.toResponse(): CountryResponse = CountryResponse(this.name!!, this.iso_code!!)

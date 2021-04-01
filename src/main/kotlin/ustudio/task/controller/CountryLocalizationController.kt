@@ -6,21 +6,20 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
-import ustudio.task.model.dto.CountryLocalizationDto
+import ustudio.task.model.dto.CountryResponse
 import ustudio.task.service.CountryLocalizationService
-import ustudio.task.service.mapper.CountryLocalizationToDto
+import ustudio.task.service.mapper.toResponse
 
 
 @RestController
 @RequestMapping("/countries")
 class CountryLocalizationController @Autowired constructor(
     val countryService: CountryLocalizationService,
-    val countryDto: CountryLocalizationToDto
 ) {
     @RequestMapping("/{isoCode}")
     @GetMapping
-    fun getCountryByIsoCode(@PathVariable isoCode: String, @RequestParam lang: String): CountryLocalizationDto {
+    fun getCountryByIsoCode(@PathVariable isoCode: String, @RequestParam lang: String): CountryResponse {
         val country = countryService.getCountryByIsoCodeAndLanguage(isoCode, lang)
-        return countryDto.toDto(country)
+        return country.toResponse()
     }
 }

@@ -17,7 +17,6 @@ import ustudio.task.exception.InvalidLanguageCodeException
 import ustudio.task.exception.LocalizationNotFoundException
 import ustudio.task.model.CountryLocalization
 import ustudio.task.service.CountryLocalizationService
-import ustudio.task.service.mapper.CountryLocalizationToDtoImpl
 
 
 internal class CountryLocalizationControllerTest {
@@ -32,10 +31,9 @@ internal class CountryLocalizationControllerTest {
         private const val INVALID_LANGUAGE_URL = "/countries/$VALID_ISO_CODE?lang=$INVALID_LANGUAGE"
 
         private val countryLocalizationService: CountryLocalizationService = mock()
-        private val convertor = CountryLocalizationToDtoImpl()
         private val handler = ExceptionsHandler()
         private val mockMvc = MockMvcBuilders.standaloneSetup(
-            CountryLocalizationController(countryLocalizationService, convertor)
+            CountryLocalizationController(countryLocalizationService)
         ).setControllerAdvice(handler).build()
     }
 

@@ -9,8 +9,7 @@ import ustudio.task.model.CountryLocalization
 @Repository
 interface LanguageRepository : JpaRepository<CountryLocalization, Long> {
     @Query(
-        value = "SELECT CASE WHEN COUNT(l) > 0 THEN true ELSE false END " +
-                "FROM languages AS l WHERE l.language = :language ",
+        value = "SELECT EXISTS(SELECT l.language FROM languages AS l WHERE l.language = :language)",
         nativeQuery = true
     )
     fun existsLanguage(@Param("language") language: String): Boolean
