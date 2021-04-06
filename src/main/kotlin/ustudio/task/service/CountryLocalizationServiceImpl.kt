@@ -5,12 +5,12 @@ import ustudio.task.exception.InvalidCountryCodeException
 import ustudio.task.exception.InvalidLanguageCodeException
 import ustudio.task.exception.LocalizationNotFoundException
 import ustudio.task.model.CountryLocalization
-import ustudio.task.repository.CountryLocalizationRepository
+import ustudio.task.repository.CountryRepository
 import ustudio.task.repository.LanguageRepository
 
 @Service
 class CountryLocalizationServiceImpl(
-    val countryRepository: CountryLocalizationRepository,
+    val countryRepository: CountryRepository,
     val languageRepository: LanguageRepository
 ) :
     CountryLocalizationService {

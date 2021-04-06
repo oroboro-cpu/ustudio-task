@@ -8,19 +8,18 @@ import ustudio.task.exception.InvalidCountryCodeException
 import ustudio.task.exception.InvalidLanguageCodeException
 import ustudio.task.exception.LocalizationNotFoundException
 
-
 @RestControllerAdvice
 class ExceptionsHandler {
     class JsonResponse(val message: String)
 
     @ExceptionHandler(value = [InvalidCountryCodeException::class])
     fun handleIsoCodeNotFoundException(e: InvalidCountryCodeException): ResponseEntity<JsonResponse> {
-        return ResponseEntity(JsonResponse(e.message!!), HttpStatus.NOT_FOUND)
+        return ResponseEntity(JsonResponse(e.message!!), HttpStatus.BAD_REQUEST)
     }
 
     @ExceptionHandler(value = [InvalidLanguageCodeException::class])
     fun handleLanguageNotFoundException(e: InvalidLanguageCodeException): ResponseEntity<JsonResponse> {
-        return ResponseEntity(JsonResponse(e.message!!), HttpStatus.NOT_FOUND)
+        return ResponseEntity(JsonResponse(e.message!!), HttpStatus.BAD_REQUEST)
     }
 
     @ExceptionHandler(value = [LocalizationNotFoundException::class])

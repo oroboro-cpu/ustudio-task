@@ -45,10 +45,7 @@ internal class CountryLocalizationControllerTest {
     @Test
     fun check_for_correct_response() {
         whenever(countryLocalizationService.getCountryByIsoCodeAndLanguage(VALID_ISO_CODE, VALID_LANGUAGE))
-            .thenReturn(CountryLocalization().apply {
-                name = COUNTRY_NAME_ENG
-                iso_code = VALID_ISO_CODE
-            })
+            .thenReturn(CountryLocalization(name = COUNTRY_NAME_ENG, iso_code = VALID_ISO_CODE))
 
         mockMvc.perform(get(VALID_URL))
             .andDo(print())
@@ -65,7 +62,7 @@ internal class CountryLocalizationControllerTest {
 
         mockMvc.perform(get(INVALID_LANGUAGE_URL))
             .andDo(print())
-            .andExpect(status().isNotFound)
+            .andExpect(status().isBadRequest)
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.message").value("Incorrect language"))
     }
@@ -77,7 +74,7 @@ internal class CountryLocalizationControllerTest {
 
         mockMvc.perform(get(INVALID_ISO_CODE_URL))
             .andDo(print())
-            .andExpect(status().isNotFound)
+            .andExpect(status().isBadRequest)
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.message").value("Incorrect iso code"))
     }

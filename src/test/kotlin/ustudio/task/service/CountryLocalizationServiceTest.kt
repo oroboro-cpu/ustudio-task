@@ -13,7 +13,7 @@ import ustudio.task.exception.InvalidCountryCodeException
 import ustudio.task.exception.InvalidLanguageCodeException
 import ustudio.task.exception.LocalizationNotFoundException
 import ustudio.task.model.CountryLocalization
-import ustudio.task.repository.CountryLocalizationRepository
+import ustudio.task.repository.CountryRepository
 import ustudio.task.repository.LanguageRepository
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -26,7 +26,7 @@ internal class CountryLocalizationServiceTest {
         private const val COUNTRY_NAME = "Ukraine"
 
         private val languageRepository: LanguageRepository = mock()
-        private val countryRepository: CountryLocalizationRepository = mock()
+        private val countryRepository: CountryRepository = mock()
         private val countryLocalizationService: CountryLocalizationService =
             CountryLocalizationServiceImpl(countryRepository, languageRepository)
     }
@@ -40,7 +40,7 @@ internal class CountryLocalizationServiceTest {
     @Test
     fun check_for_correct_language_output_and_iso_code() {
         whenever(countryRepository.getCountryByIsoCodeAndLanguage(VALID_ISO_CODE, VALID_LANGUAGE))
-            .thenReturn(CountryLocalization().apply { name = COUNTRY_NAME })
+            .thenReturn(CountryLocalization(name = COUNTRY_NAME, iso_code = VALID_ISO_CODE))
         whenever(countryRepository.existsIsoCode(VALID_ISO_CODE)).thenReturn(true)
         whenever(languageRepository.existsLanguage(VALID_LANGUAGE)).thenReturn(true)
 

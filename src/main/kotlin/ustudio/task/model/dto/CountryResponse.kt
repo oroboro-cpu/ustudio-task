@@ -1,3 +1,3 @@
 package ustudio.task.model.dto
 
-class CountryResponse(val name: String, val code: String)
+data class CountryResponse(val name: String, val code: String)

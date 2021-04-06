@@ -10,11 +10,10 @@ import ustudio.task.model.dto.CountryResponse
 import ustudio.task.service.CountryLocalizationService
 import ustudio.task.service.mapper.toResponse
 
-
 @RestController
 @RequestMapping("/countries")
 class CountryLocalizationController @Autowired constructor(
-    val countryService: CountryLocalizationService,
+    val countryService: CountryLocalizationService
 ) {
     @RequestMapping("/{isoCode}")
     @GetMapping
