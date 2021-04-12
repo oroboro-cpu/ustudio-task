@@ -15,8 +15,8 @@ import ustudio.task.service.mapper.toResponse
 class CountryLocalizationController @Autowired constructor(
     val countryService: CountryLocalizationService
 ) {
-    @RequestMapping("/{isoCode}")
-    @GetMapping
+
+    @GetMapping("/{isoCode}")
     fun getCountryByIsoCode(@PathVariable isoCode: String, @RequestParam lang: String): CountryResponse {
         val country = countryService.getCountryByIsoCodeAndLanguage(isoCode, lang)
         return country.toResponse()

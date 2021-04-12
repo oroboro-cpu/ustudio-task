@@ -43,7 +43,7 @@
     </changeSet>
     <changeSet id="5" author="yaroslav">
         <sql>
-            INSERT INTO "languages" ("language") VALUES ('en'), ('ru'), ('uk');
+            INSERT INTO "languages" ("id", "language") VALUES ('1', 'en'), ('2', 'ru'), ('3', 'uk');
         </sql>
     </changeSet>
     <changeSet id="6" author="yaroslav">

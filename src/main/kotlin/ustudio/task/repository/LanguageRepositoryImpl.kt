@@ -1,11 +1,13 @@
 package ustudio.task.repository
 
+import org.intellij.lang.annotations.Language
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 import org.springframework.stereotype.Repository
 
 @Repository
 class LanguageRepositoryImpl(private val jdbcTemplate: NamedParameterJdbcTemplate) : LanguageRepository {
     companion object {
+        @Language("PostgreSQL")
         private const val EXIST_LANGUAGE_QUERY =
             "SELECT EXISTS(SELECT * FROM languages AS l WHERE l.language = :language)"
     }

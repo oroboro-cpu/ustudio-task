@@ -44,7 +44,8 @@ internal class CountryLocalizationServiceTest {
         whenever(countryRepository.existsIsoCode(VALID_ISO_CODE)).thenReturn(true)
         whenever(languageRepository.existsLanguage(VALID_LANGUAGE)).thenReturn(true)
 
-        val result = countryLocalizationService.getCountryByIsoCodeAndLanguage(VALID_ISO_CODE, VALID_LANGUAGE).name
+        val result = countryLocalizationService
+            .getCountryByIsoCodeAndLanguage(VALID_ISO_CODE, VALID_LANGUAGE).name
 
         assertEquals(COUNTRY_NAME, result)
     }
